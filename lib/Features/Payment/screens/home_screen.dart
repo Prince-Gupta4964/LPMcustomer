@@ -334,23 +334,6 @@ class _HomeScreenState extends State<HomeScreen> {
     Navigator.of(context).push(MaterialPageRoute(builder: (_) => FilteredListScreen(status: status, leads: allLeads, onOpenDetail: _openDetail)));
   }
 
-  // --- DYNAMIC TABS BUILDER ---
-  List<NavigationDestination> _buildNavDestinations() {
-    List<NavigationDestination> items = [];
-    if (_allowedTabs.contains('Home') || _allowedTabs.isEmpty) items.add(const NavigationDestination(icon: Icon(Icons.home_outlined), selectedIcon: Icon(Icons.home, color: Colors.black), label: 'Home'));
-    if (_allowedTabs.contains('ToDo')) items.add(const NavigationDestination(icon: Icon(Icons.map_outlined), selectedIcon: Icon(Icons.map, color: Colors.black), label: 'To-Do'));
-    if (_allowedTabs.contains('Paid')) items.add(const NavigationDestination(icon: Icon(Icons.account_balance_wallet_outlined), selectedIcon: Icon(Icons.account_balance_wallet, color: Colors.black), label: 'Paid'));
-    if (_allowedTabs.contains('Graph')) items.add(const NavigationDestination(icon: Icon(Icons.bar_chart_outlined), selectedIcon: Icon(Icons.bar_chart, color: Colors.black), label: 'Graph'));
-
-    if (items.length < 2) {
-      items = [
-        const NavigationDestination(icon: Icon(Icons.home_outlined), selectedIcon: Icon(Icons.home, color: Colors.black), label: 'Home'),
-        const NavigationDestination(icon: Icon(Icons.account_balance_wallet_outlined), selectedIcon: Icon(Icons.account_balance_wallet, color: Colors.black), label: 'Paid'),
-      ];
-    }
-    return items;
-  }
-
   // --- GENERATE PAGES FOR PAGEVIEW ---
   List<Widget> _buildPageViewChildren() {
     List<Widget> pages = [];
@@ -367,7 +350,6 @@ class _HomeScreenState extends State<HomeScreen> {
   // --- MAIN BUILD ---
   @override
   Widget build(BuildContext context) {
-    final navDestinations = _buildNavDestinations();
     final pageChildren = _buildPageViewChildren();
 
     String currentTabName = 'Home';
@@ -415,22 +397,6 @@ class _HomeScreenState extends State<HomeScreen> {
           ],
         ),
       ),
-
-      bottomNavigationBar: (!_isSelectionMode && !_isLoading && navDestinations.length >= 2)
-          ? NavigationBarTheme(
-        data: NavigationBarThemeData(indicatorColor: const Color(0xFFFDD835), labelTextStyle: MaterialStateProperty.all(const TextStyle(fontSize: 12, fontWeight: FontWeight.bold))),
-        child: NavigationBar(
-          selectedIndex: _currentIndex >= navDestinations.length ? 0 : _currentIndex, // Safety Check
-          onDestinationSelected: (index) {
-            setState(() => _currentIndex = index);
-            _pageController.animateToPage(index, duration: const Duration(milliseconds: 300), curve: Curves.easeInOut);
-          },
-          backgroundColor: Colors.white,
-          elevation: 0,
-          destinations: navDestinations,
-        ),
-      )
-          : null,
 
       body: SafeArea(
         child: _isLoading

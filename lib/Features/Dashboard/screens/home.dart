@@ -1,32 +1,24 @@
+// ignore_for_file: unused_element, unused_import
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import '../widgets/bottom_navigation.dart';
-
 class Home extends StatelessWidget {
   final Widget child;
   final String location;
   final List<dynamic>? departments;
-
   const Home({
     super.key,
     required this.child,
     required this.location,
     this.departments,
   });
-
   @override
   Widget build(BuildContext context) {
-    int currentIndex = _calculateIndex(location);
-
+    // Bottom navigation bar hidden from UI
     return Scaffold(
       body: child,
-      bottomNavigationBar: BottomNavBar(
-        currentIndex: currentIndex,
-        onNavTap: (index) => _onNavTap(context, index),
-      ),
     );
   }
-
   // ------------------ ROUTE → INDEX ------------------
   int _calculateIndex(String location) {
     if (location.startsWith('/map')) return 1;
@@ -40,7 +32,6 @@ class Home extends StatelessWidget {
     if (location.startsWith('/job-summary')) return 0;
     return 0; // dashboard default
   }
-
   // ------------------ INDEX → ROUTE ------------------
   void _onNavTap(BuildContext context, int index) {
     switch (index) {
