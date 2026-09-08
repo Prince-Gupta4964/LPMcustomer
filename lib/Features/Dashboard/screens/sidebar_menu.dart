@@ -1,190 +1,197 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:lightatech/core/session/session_manager.dart';
 
-import '../../Payment/screens/history_screen.dart';
 import '../widgets/sidebar_logo.dart';
+import 'history_screen.dart';
 
 // Screens
 import '../../adminAccess/screens/user_rights_screen.dart';
-import '../../history/screens/history_screen.dart';
 
 class SidebarMenu extends StatelessWidget {
-const SidebarMenu({Key? key}) : super(key: key);
+  const SidebarMenu({Key? key}) : super(key: key);
 
-Widget buildMenuItem(
-BuildContext context,
-String label,
-IconData icon,
-VoidCallback onTap,
-) {
-return ListTile(
-leading: Icon(
-icon,
-color: Colors.blue,
-),
-title: Text(label),
-onTap: onTap,
-);
-}
+  Widget buildMenuItem(
+      BuildContext context,
+      String label,
+      IconData icon,
+      VoidCallback onTap,
+      ) {
+    return ListTile(
+      leading: Icon(
+        icon,
+        color: Colors.blue,
+      ),
+      title: Text(label),
+      onTap: onTap,
+    );
+  }
 
-@override
-Widget build(BuildContext context) {
-return Drawer(
-child: SafeArea(
-child: ListView(
-padding: const EdgeInsets.symmetric(horizontal: 12),
-children: [
-const SidebarLogo(),
+  @override
+  Widget build(BuildContext context) {
+    return Drawer(
+      child: SafeArea(
+        child: ListView(
+          padding: const EdgeInsets.symmetric(horizontal: 12),
+          children: [
+            const SidebarLogo(),
 
-// ---------------------------------------------------------
-// DASHBOARD
-// ---------------------------------------------------------
-buildMenuItem(
-context,
-'All Staffs Dashboard',
-Icons.dashboard,
-() {},
-),
+            // ---------------------------------------------------------
+            // DASHBOARD
+            // ---------------------------------------------------------
+            buildMenuItem(
+              context,
+              'All Staffs Dashboard',
+              Icons.dashboard,
+                  () {},
+            ),
 
-// ---------------------------------------------------------
-// PROJECTS
-// ---------------------------------------------------------
-buildMenuItem(
-context,
-'Projects',
-Icons.work_outline,
-() {},
-),
+            // ---------------------------------------------------------
+            // PROJECTS
+            // ---------------------------------------------------------
+            buildMenuItem(
+              context,
+              'Projects',
+              Icons.work_outline,
+                  () {},
+            ),
 
-// ---------------------------------------------------------
-// REACH DASHBOARD
-// ---------------------------------------------------------
-buildMenuItem(
-context,
-'Reach Dashboard',
-Icons.people_outline,
-() {},
-),
+            // ---------------------------------------------------------
+            // REACH DASHBOARD
+            // ---------------------------------------------------------
+            buildMenuItem(
+              context,
+              'Reach Dashboard',
+              Icons.people_outline,
+                  () {},
+            ),
 
-// ---------------------------------------------------------
-// TURNOVER
-// ---------------------------------------------------------
-buildMenuItem(
-context,
-'Turnover',
-Icons.bar_chart,
-() {},
-),
+            // ---------------------------------------------------------
+            // TURNOVER
+            // ---------------------------------------------------------
+            buildMenuItem(
+              context,
+              'Turnover',
+              Icons.bar_chart,
+                  () {},
+            ),
 
-// ---------------------------------------------------------
-// PACKAGES
-// ---------------------------------------------------------
-buildMenuItem(
-context,
-'Packages',
-Icons.card_giftcard,
-() {},
-),
+            // ---------------------------------------------------------
+            // PACKAGES
+            // ---------------------------------------------------------
+            buildMenuItem(
+              context,
+              'Packages',
+              Icons.card_giftcard,
+                  () {},
+            ),
 
-// ---------------------------------------------------------
-// PRODUCTIVITY
-// ---------------------------------------------------------
-buildMenuItem(
-context,
-'Productivity',
-Icons.show_chart,
-() {},
-),
+            // ---------------------------------------------------------
+            // PRODUCTIVITY
+            // ---------------------------------------------------------
+            buildMenuItem(
+              context,
+              'Productivity',
+              Icons.show_chart,
+                  () {},
+            ),
 
-// ---------------------------------------------------------
-// HISTORY
-// ---------------------------------------------------------
-buildMenuItem(
-context,
-'History',
-Icons.history,
-() {
-Navigator.pop(context);
+            // ---------------------------------------------------------
+            // HISTORY
+            // ---------------------------------------------------------
+            buildMenuItem(
+              context,
+              'History',
+              Icons.history,
+                  () {
+                Navigator.pop(context);
 
-Navigator.push(
-context,
-MaterialPageRoute(
-builder: (_) => const HistoryScreen(),
-),
-);
-},
-),
+                // Get currently logged-in customer's session
+                final session = SessionManager.getSession();
 
-const Divider(),
+                final partyName = session?['partyName'] ?? '';
 
-// ---------------------------------------------------------
-// ABOUT
-// ---------------------------------------------------------
-buildMenuItem(
-context,
-'About',
-Icons.info_outline,
-() {},
-),
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (_) => HistoryScreen(
+                      partyName: partyName,
+                    ),
+                  ),
+                );
+              },
+            ),
 
-// ---------------------------------------------------------
-// FEEDBACK
-// ---------------------------------------------------------
-buildMenuItem(
-context,
-'Feedback',
-Icons.feedback_outlined,
-() {},
-),
+            const Divider(),
 
-// ---------------------------------------------------------
-// SHARE
-// ---------------------------------------------------------
-buildMenuItem(
-context,
-'Share',
-Icons.share_outlined,
-() {
-Navigator.pop(context);
-context.go('/intro/splash');
-},
-),
+            // ---------------------------------------------------------
+            // ABOUT
+            // ---------------------------------------------------------
+            buildMenuItem(
+              context,
+              'About',
+              Icons.info_outline,
+                  () {},
+            ),
 
-const Divider(),
+            // ---------------------------------------------------------
+            // FEEDBACK
+            // ---------------------------------------------------------
+            buildMenuItem(
+              context,
+              'Feedback',
+              Icons.feedback_outlined,
+                  () {},
+            ),
 
-// ---------------------------------------------------------
-// APP GALLERY
-// ---------------------------------------------------------
-buildMenuItem(
-context,
-'App Gallery',
-Icons.apps,
-() {
-Navigator.pop(context);
-},
-),
+            // ---------------------------------------------------------
+            // SHARE
+            // ---------------------------------------------------------
+            buildMenuItem(
+              context,
+              'Share',
+              Icons.share_outlined,
+                  () {
+                Navigator.pop(context);
+                context.go('/intro/splash');
+              },
+            ),
 
-// ---------------------------------------------------------
-// ADD SHORTCUT
-// ---------------------------------------------------------
-buildMenuItem(
-context,
-'Add Shortcut',
-Icons.add_box_outlined,
-() {
-Navigator.pop(context);
+            const Divider(),
 
-Navigator.push(
-context,
-MaterialPageRoute(
-builder: (_) => UserRightsScreen(),
-),
-);
-},
-),
-],
-),
-),
-);
-}
+            // ---------------------------------------------------------
+            // APP GALLERY
+            // ---------------------------------------------------------
+            buildMenuItem(
+              context,
+              'App Gallery',
+              Icons.apps,
+                  () {
+                Navigator.pop(context);
+              },
+            ),
+
+            // ---------------------------------------------------------
+            // ADD SHORTCUT
+            // ---------------------------------------------------------
+            buildMenuItem(
+              context,
+              'Add Shortcut',
+              Icons.add_box_outlined,
+                  () {
+                Navigator.pop(context);
+
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (_) => UserRightsScreen(),
+                  ),
+                );
+              },
+            ),
+          ],
+        ),
+      ),
+    );
+  }
 }
