@@ -177,7 +177,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
       /// CHECK CUSTOMER
       final onboardingSnapshot = await FirebaseFirestore.instance
-          .collection('customers')
+          .collection('clients')
           .where('Email', isEqualTo: email)
           .get();
 
@@ -187,7 +187,7 @@ class _LoginScreenState extends State<LoginScreen> {
         doc = onboardingSnapshot.docs.first;
       } else {
         final newDoc = await FirebaseFirestore.instance
-            .collection('customers')
+            .collection('clients')
             .add({
           "Email": email,
           "Password": "google_user",
@@ -205,7 +205,7 @@ class _LoginScreenState extends State<LoginScreen> {
       final uid = doc.id;
 
       final partyName =
-      (userData["Party Names"] ?? userData["Name"] ?? "Customer").toString();
+      (userData["PartyName"] ?? userData["Name"] ?? "Customer").toString();
 
       await saveLoginLog(email: email, department: 'User');
 
